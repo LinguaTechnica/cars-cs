@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace CarApp.Cars
 {
-    public record Car 
+    public record Car
     {
         public string Name;
         public int Year;
@@ -35,7 +35,8 @@ namespace CarApp.Cars
             }
             catch (FormatException e)
             {
-                Console.WriteLine(e);
+                Console.Write(e.Message);
+                Console.WriteLine(" Skipping car ...");
             }
 
             return new Car();
@@ -43,17 +44,13 @@ namespace CarApp.Cars
 
         private static CountryOfOrigin GetOrigin(int origin)
         {
-            switch (origin)
+            return origin switch
             {
-                case 1:
-                    return CountryOfOrigin.UnitedStates;
-                case 2:
-                    return CountryOfOrigin.Mexico;
-                case 3:
-                    return CountryOfOrigin.Canada;
-                default:
-                    return CountryOfOrigin.UnitedStates;
-            }   
+                1 => CountryOfOrigin.UnitedStates,
+                2 => CountryOfOrigin.Mexico,
+                3 => CountryOfOrigin.Canada,
+                _ => CountryOfOrigin.UnitedStates
+            };
         }
     }
 }

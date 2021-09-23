@@ -8,7 +8,7 @@ namespace CarApp.Cars
     public class CarService
     {
         private List<Car> Cars;
-        private string carFilePath = "/Users/kayhudson/RiderProjects/CarApp/CarApp/Cars/auto-mpg.csv";
+        private string carFilePath = "/Users/owner/RiderProjects/cars-cs/CarApp/Cars/auto-mpg.csv";
 
         public CarService()
         {
@@ -28,13 +28,13 @@ namespace CarApp.Cars
 
             foreach (var carItem in queryList)
             {
-                Console.WriteLine(carItem[0]);
                 // Skip header line
                 if (carItem.Contains("mpg"))
                 {
                     continue;
                 }
                 Cars.Add(Car.Builder(carItem.ToList()));
+                
             }
         }
         
@@ -45,32 +45,19 @@ namespace CarApp.Cars
 
         public List<Car> FindByName(string carName)
         {
-            var queryResult =
-                from car in Cars
-                where car.Name == carName
-                select car;
-
-            return queryResult.ToList();
+            return Cars.Where(car => car.Name == carName).ToList();
         }
 
         public List<Car> FindBySpecs(decimal query)
         {
-            var queryResult =
-                from car in Cars
-                where car.MPG == query | car.Acceleration == query | car.Cylinders == query | car.Weight == query | car.Displacement == query | car.HorsePower == query
-                select car;
-            
-            return queryResult.ToList();
+            return Cars.Where(car =>
+                car.MPG == query | car.Acceleration == query | car.Cylinders == query | car.Weight == query |
+                car.Displacement == query | car.HorsePower == query).ToList();
         }
 
         public List<Car> FindByYear(int year)
         {
-            var queryResult =
-                from car in Cars
-                where car.Year == year
-                select car;
-
-            return queryResult.ToList();
+            return Cars.Where(car => car.Year == year).ToList();
         }
 
         public decimal GetAverageMpg()
@@ -86,12 +73,7 @@ namespace CarApp.Cars
 
         public List<Car> SortByDisplacement()
         {
-            var queryResults =
-                from car in Cars
-                orderby car.Displacement
-                select car;
-
-            return queryResults.ToList();
+            return Cars.OrderBy(car => car.Displacement).ToList();
         }
     }
 }
